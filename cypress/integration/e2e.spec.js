@@ -10,18 +10,22 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
         Adicionando ao carrinho
         Preenchendo todas opções no checkout
         E validando minha compra ao final */
-    before(() => {
-        cy.visit('minha conta/')
+    
     });
-    it('Deve acessar a loja EBAC SHOP e fazer login e concluir compra', () => {
-        cy.fixture('perfil').then((dados) => {
+    beforeEach(() => {
+        cy.visit('minha-conta')
+        cy.fixture('perfil').then(dados => {
             cy.login(dados.usuario, dados.senha)
-        })
+})
+      
+    });
+
+    it('Deve acessar a loja EBAC SHOP e fazer login e concluir compra', () => {
+      
         cy.get('.page-title').should('contain', 'Minha conta')
-        it('Deve acessar a loja e selecionar quantidade')
         cy.get('#primary-menu > .menu-item-536 > .dropdown-toggle').click()
-        cy.addProdutos('Ariel Roll Sleeve Sweatshirt', 'XL', 'Red', '4')
-        cy.get('.woocommerce-message').should('contain', '4 × “Ariel Roll Sleeve Sweatshirt” foram adicionados no seu carrinho.')
+        cy.addProdutos('Ariel Roll Sleeve Sweatshirt', 'XL', 'Red', '3')
+        cy.get('.woocommerce-message').should('contain', '3 × “Ariel Roll Sleeve Sweatshirt” foram adicionados no seu carrinho.')
         cy.get('.woocommerce-message > .button').click()
         cy.get('.checkout-button').click()
 
@@ -33,4 +37,3 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
         cy.get('.page-title').should('contain', 'Pedido recebido')
     
     });
-})
